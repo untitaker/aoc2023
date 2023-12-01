@@ -1,14 +1,10 @@
 #!/bin/bash
 
 run() (
-    input="$(cat)"
-    
-    paste \
-        <(echo -n "$input" | sed -e 's/^[a-z]*\([0-9]\).*$/\1/g') \
-        <(echo -n "$input" | sed -e 's/^.*\([0-9]\)[a-z]*$/\1/g') \
-        | tr -d $'\t' \
-        | tr $'\n' '+' \
-        | sed -e 's/+$//g' \
+    sed \
+        -e 's/^\([a-z]*\([0-9]\).*\)$/\2\1/g' \
+        -e 's/^\(\(.\).*\([0-9]\)[a-z]*\)$/\2\3/g' \
+        | paste -sd+ - \
         | bc
 )
 
@@ -22,7 +18,7 @@ cat day1.txt \
     $(
         i=0
         for f in one two three four five six seven eight nine; do
-            (( i+=1 ))
+            (( i += 1 ))
             echo "-e s/$f/$f$i$f/g"
         done
     ) \
