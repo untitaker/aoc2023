@@ -8,11 +8,11 @@ run() (
         | bc
 )
 
-echo day 1
+echo part 1
 cat day1.txt | run
 
 
-echo day 2
+echo part 2
 cat day1.txt \
     | sed \
     $(
